@@ -146,7 +146,7 @@ function start_scene() {
         mat.albedoTexture = tx_gold
 
         mat.reflectivityColor = new BABYLON.Color3(0.9, 0.8, 0.2);
-        //mat.reflectivityTexture =   tx_sp;
+        //mat.reflectivityTexture =  tx_sp;
 
         mat.environmentIntensity = .5;
         mat.directIntensity = .5;
@@ -173,6 +173,7 @@ function start_scene() {
         mat.refractionFresnelParameters.power = .55;
 
         mat.linkRefractionWithTransparency = true;
+
 
     } else {
 
