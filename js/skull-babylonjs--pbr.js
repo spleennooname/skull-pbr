@@ -17,7 +17,9 @@ var rstats_obj = {
 /* vars */
 
 var canvas, engine, scene, assets, material, mesh, light, camera, assets, light3, mesh, angle = 0,
-    tx_box, tx_gold, tx_mat;
+    tx_box, tx_gold, tx_mat,
+
+    base_url  ="https://dl.dropboxusercontent.com/u/1358781/lab/webgl/skull";
 
 
 /* functions */
@@ -96,14 +98,14 @@ function on_init_scene() {
     mesh.position.y = 0;
     mesh.position.z = 0;
 
-    tx_box = new BABYLON.CubeTexture("textures/obsidian/ob", scene);
+    tx_box = new BABYLON.CubeTexture(base_url+"/textures/obsidian/ob", scene);
 
-    var tx_gold_task= assets.addTextureTask("tx-gold", "textures/gold/gold_texture_1024.jpg");
+    var tx_gold_task= assets.addTextureTask("tx-gold", base_url+"/textures/gold/gold_texture_1024.jpg");
     tx_gold_task.onSuccess = function(task) {
         tx_gold = task.texture;
     }
 
-    var tx_sp_task= assets.addTextureTask("tx-gold-sp", "textures/gold/gold_texture_1024_sp.jpg");
+    var tx_sp_task= assets.addTextureTask("tx-gold-sp", base_url+"/textures/gold/gold_texture_1024_sp.jpg");
     tx_sp_task.onSuccess = function(task) {
         tx_sp = task.texture;
     } 
@@ -266,9 +268,9 @@ function init() {
             canvas = document.getElementById("webgl-canvas");
             engine = new BABYLON.Engine(canvas, true);
 
-            engine.loadingUIText = "loading";
+            //engine.loadingUIText = "loading";
 
-            BABYLON.SceneLoader.Load("", "skull/skull-ok.babylon", engine, function(loaded_scene) {
+            BABYLON.SceneLoader.Load("", base_url+"/skull/skull-ok.babylon", engine, function(loaded_scene) {
                 
                 scene = loaded_scene;
                 scene.executeWhenReady(on_init_scene);

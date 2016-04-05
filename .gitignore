@@ -1,6 +1,4 @@
 *.ini
-/1024x1024
-*.jpg
 --*.html
 /node_modules
 *.png
