@@ -71,7 +71,7 @@
   .what h2{
     font-size: .75rem;
   }
-  
+
  body.dg {
      background: red
  }
@@ -128,11 +128,14 @@
  }
  
  @media only screen and (min-width: 61em) {
+    
      html {
          font-size: 17px;
          line-height: 28px;
      }
+
      #webgl-demo {
-         width: 80%;
+            width: auto;
+            max-width: 1024px
      }
  }

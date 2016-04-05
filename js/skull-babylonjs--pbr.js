@@ -1,4 +1,3 @@
-
 var rstats_obj = {
     values: {
         frame: {
@@ -15,7 +14,10 @@ var rstats_obj = {
     }
 }
 
-var canvas, engine, scene, material, mesh, light, camera, assets, light3, mesh, angle=0;
+/* vars */
+
+var canvas, engine, scene, assets, material, mesh, light, camera, assets, light3, mesh, angle = 0,
+    tx_box, tx_gold, tx_mat;
 
 
 /* functions */
@@ -36,24 +38,26 @@ function render() {
 
 function resize() {
 
-    var aspect = 4/3;
+    var aspect = 4 / 3;
+
     var c = document.getElementById("webgl-demo");
+
     var h = window.innerHeight;
-    c.style.height = h + "px"
+    c.style.height = h + "px";
+    c.style.width = (aspect * h) + "px"
 
     engine.resize();
 }
 
 function before_render(camera) {
 
-    skl = scene.meshes[0];
-    skl.rotation.y -= 0.015;
+
+    mesh.rotation.y -= 0.015;
     light.position = new BABYLON.Vector3(60 * Math.sin(angle), 0, 60 * Math.cos(angle));
     light3.position = new BABYLON.Vector3(60 * Math.sin(angle), 60 * Math.cos(angle), 0);
     //light.position = camera.position;
     angle += 0.025;
-    /*scene.lights.forEach(function(l) {
-        
+    /*scene.lights.forEach(function(l) {        
     });*/
 }
 
@@ -68,22 +72,51 @@ function on_init_scene() {
     scene.activeCamera = camera;
     camera.attachControl(canvas, true);
 
-    skl = scene.meshes[0];
+    mesh = scene.meshes[0];
 
-
-    camera.target = skl;
+    camera.target = mesh;
     camera.minZ = 10;
     //camera.maxZ = 200;
     camera.setPosition(new BABYLON.Vector3(0, 0, 100));
-    camera.radius = 100
+    camera.radius = 100;
 
-    var tx_gold = new BABYLON.Texture("textures/gold/gold_texture_1024.jpg", scene);
-    var tx_sp = new BABYLON.Texture("textures/gold/gold_texture_1024_sp.jpg", scene);
-    var tx_am = new BABYLON.Texture("textures/amiga.jpg", scene);
+    assets = new BABYLON.AssetsManager(scene);
 
-    var tx_box = new BABYLON.CubeTexture("textures/obsidian/ob", scene);
+    mesh.optimizeIndices(function() {
+        mesh.simplify([
+                { quality: 0.55, distance: 200 },
+                { quality: 0.65, distance: 100 },
+                { quality: 0.75, distance: 50 },
+                { quality: 0.95, distance: 10 }
+            ],
+            false,
+            BABYLON.SimplificationType.QUADRATIC);
+    });
+    mesh.position.x = 0;
+    mesh.position.y = 0;
+    mesh.position.z = 0;
 
-    // var tx_box = new BABYLON.CubeTexture("textures/crystal/cry", scene);
+    tx_box = new BABYLON.CubeTexture("textures/obsidian/ob", scene);
+
+    var tx_gold_task= assets.addTextureTask("tx-gold", "textures/gold/gold_texture_1024.jpg");
+    tx_gold_task.onSuccess = function(task) {
+        tx_gold = task.texture;
+    }
+
+    var tx_sp_task= assets.addTextureTask("tx-gold-sp", "textures/gold/gold_texture_1024_sp.jpg");
+    tx_sp_task.onSuccess = function(task) {
+        tx_sp = task.texture;
+    } 
+
+    assets.onFinish = function(tasks) {
+        start_scene();
+    };
+
+    assets.load();
+}
+
+function start_scene() {
+
 
     var box = BABYLON.Mesh.CreateBox("sky-box", 800.0, scene);
 
@@ -102,7 +135,8 @@ function on_init_scene() {
     box_mat.backFaceCulling = false;
     box.material = box_mat;
 
-    var use_pbr = true
+    var use_pbr = true;
+
     if (use_pbr == true) {
         //skull pbr material    
         mat = new BABYLON.PBRMaterial("skull-mat", scene);
@@ -181,18 +215,7 @@ function on_init_scene() {
 
     }
 
-    skl.material = mat;
-    //skl.applyDisplacementMap("textures/gold/gold_texture_1024.jpg", 0, 1.5)
-    skl.optimizeIndices(function() {
-        skl.simplify([
-                { quality: 0.55, distance: 200 },
-                { quality: 0.65, distance: 100 },
-                { quality: 0.75, distance: 50 },
-                { quality: 0.95, distance: 10 }
-            ],
-            false,
-            BABYLON.SimplificationType.QUADRATIC);
-    });
+    mesh.material = mat;
 
     light = scene.lights[0];
     light.diffuseColor = new BABYLON.Color3(1, 1, 1);
@@ -210,9 +233,6 @@ function on_init_scene() {
     light3.specular = new BABYLON.Color3(1, 1, 1);
     light3.intensity = .5;
 
-    skl.position.x = 0;
-    skl.position.y = 0;
-    skl.position.z = 0;
 
     window.addEventListener('resize', resize, false);
     resize();
@@ -231,7 +251,6 @@ function on_init_scene() {
         });
 
     t1.start();
-
 }
 
 function init() {
@@ -245,10 +264,16 @@ function init() {
             stats = new rStats(rstats_obj);
             canvas = document.getElementById("webgl-canvas");
             engine = new BABYLON.Engine(canvas, true);
+
+            engine.loadingUIText = "loading";
+
             BABYLON.SceneLoader.Load("", "skull/skull-ok.babylon", engine, function(loaded_scene) {
+                
                 scene = loaded_scene;
                 scene.executeWhenReady(on_init_scene);
+
             }, on_progress_scene);
+
         }
     } else {
         Detector.addGetWebGLMessage();
