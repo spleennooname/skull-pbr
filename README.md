@@ -2,14 +2,12 @@
 
 A WebGL Demo with BabylonJS 2.40a and PBR Materials.
 
-https://img.shields.io/github/license/mashape/apistatus.svg
+![WebGL ready](https://img.shields.io/badge/webgl-ready-green.png) 
 
-* BabylonJS 2.40a with P
+* BabylonJS 2.40a
 * In-Browser Mesh Simplification (Auto-LoD, Level Of Details)
-* BR Materials
-* Browser support: IE6+
-* MIT license.
-
+* PBR Materials
+* 
 ## WebGL?
 
 ## Changelog
