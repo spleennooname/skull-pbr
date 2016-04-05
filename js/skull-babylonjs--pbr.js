@@ -137,18 +137,18 @@ function start_scene() {
     box_mat.backFaceCulling = false;
     box.material = box_mat;
 
-    var use_pbr = true;
+    var use_pbr = false;
 
     if (use_pbr == true) {
         //skull pbr material    
         mat = new BABYLON.PBRMaterial("skull-mat", scene);
 
-        mat.microSurface = .75;
+        mat.microSurface = .82;
         mat.albedoColor = new BABYLON.Color3(0.05, 0.03, 0.01);
         mat.albedoTexture = tx_gold
 
         mat.reflectivityColor = new BABYLON.Color3(0.9, 0.8, 0.2);
-        //mat.reflectivityTexture =  tx_sp;
+        mat.reflectivityTexture =  tx_sp;
 
         mat.environmentIntensity = .5;
         mat.directIntensity = .5;
@@ -171,7 +171,7 @@ function start_scene() {
         mat.refractionFresnelParameters = new BABYLON.FresnelParameters();
         mat.refractionFresnelParameters.leftColor = BABYLON.Color3.White();
         mat.refractionFresnelParameters.rightColor = BABYLON.Color3.Black();
-        mat.refractionFresnelParameters.bias = .2;
+        mat.refractionFresnelParameters.bias = .25;
         mat.refractionFresnelParameters.power = .55;
 
         mat.linkRefractionWithTransparency = true;
@@ -183,23 +183,24 @@ function start_scene() {
         var mat = new BABYLON.StandardMaterial("skull-mat", scene);
 
         mat.diffuseColor = new BABYLON.Color3(0.9, 0.8, 0.2);
-        //mat.bumpTexture = tx_gold;
+        mat.diffuseTexture = tx_gold;
 
-        mat.specularColor = new BABYLON.Color3(1, 1, 1);
+        mat.specularColor = new BABYLON.Color3(0.9, 0.8, 0.2);
+        mat.specularTexture =  tx_sp;
 
         mat.ambientColor = new BABYLON.Color3(0.0, 0.0, 0.0);
         mat.emissiveColor = new BABYLON.Color3(0.0, 0.0, 0.0);
-        mat.specularPower = 20;
+        mat.specularPower = 30;
         mat.alpha = 1.0;
 
         //reflection
         mat.reflectionTexture = tx_box;
         mat.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
         mat.reflectionFresnelParameters = new BABYLON.FresnelParameters();
-        mat.reflectionFresnelParameters.power = .85;
-        mat.reflectionFresnelParameters.bias = .15;
+        mat.reflectionFresnelParameters.power = .55;
+        mat.reflectionFresnelParameters.bias = .25;
         mat.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
-        mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
+        mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black()
 
         mat.emissiveFresnelParameters = new BABYLON.FresnelParameters();
         mat.emissiveFresnelParameters.bias = 0.15;
@@ -213,8 +214,8 @@ function start_scene() {
         mat.refractionFresnelParameters = new BABYLON.FresnelParameters();
         mat.refractionFresnelParameters.leftColor = BABYLON.Color3.White();
         mat.refractionFresnelParameters.rightColor = BABYLON.Color3.Black();
-        mat.refractionFresnelParameters.bias = 0;
-        mat.refractionFresnelParameters.power = .35;
+        mat.refractionFresnelParameters.bias = .25;
+        mat.refractionFresnelParameters.power = .55;
 
     }
 
@@ -234,7 +235,7 @@ function start_scene() {
     light3 = new BABYLON.PointLight("point-3", new BABYLON.Vector3(0, 0, -100), scene);
     light3.diffuse = new BABYLON.Color3(1, 1, 1);
     light3.specular = new BABYLON.Color3(1, 1, 1);
-    light3.intensity = .5;
+    light3.intensity = .75;
 
 
     window.addEventListener('resize', resize, false);
@@ -244,10 +245,10 @@ function start_scene() {
     scene.beforeRender = before_render;
     engine.runRenderLoop(render);
 
-    scene.debugLayer.show();
+    //scene.debugLayer.show();
 
     var t1 = new TWEEN.Tween({ z: 150 })
-        .to({ z: 200 }, 5000)
+        .to({ z: 200 }, 4000)
         .easing(TWEEN.Easing.Exponential.InOut)
         .onUpdate(function() {
             camera.setPosition(new BABYLON.Vector3(0, 0, this.z));
@@ -283,4 +284,5 @@ function init() {
     }
 }
 //   /init
-head.ready(document, init);
+
+onDomReady( init );
