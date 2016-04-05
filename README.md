@@ -12,8 +12,6 @@ https://img.shields.io/github/license/mashape/apistatus.svg
 
 ## WebGL?
 
-
-
 ## Changelog
 
 **05 Apr 2016**  
