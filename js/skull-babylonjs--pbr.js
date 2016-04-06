@@ -45,8 +45,8 @@ function resize() {
     var c = document.getElementById("webgl-demo");
 
     var h = window.innerHeight;
-    c.style.height = h + "px";
-    c.style.width = (aspect * h) + "px"
+    //c.style.height = h + "px";
+    //c.style.width = (aspect * h) + "px"
 
     engine.resize();
 }
