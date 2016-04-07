@@ -1,6 +1,8 @@
 *.ini
 --*.html
-/node_modules
+node_modules
 *.png
 Gruntfile.js
 *.json
+*.txt
+*.jpg
