@@ -5,7 +5,7 @@ var rstats_obj = {
             over: 16.67
         },
         raf: {
-            caption: 'Time since last rAF (ms)'
+            caption: 'since last rAF (ms)'
         },
         fps: {
             caption: 'Framerate (FPS)',
@@ -16,7 +16,7 @@ var rstats_obj = {
 
 /* vars */
 
-var canvas, engine, scene, assets, material, mesh, light, camera, assets, light3, mesh, angle = 0,
+var canvas, engine, scene, assets, material, mesh, light, light2, camera, assets, light3, mesh, angle = 0,
 
     tx_box, tx_gold, tx_mat,
 
@@ -59,7 +59,7 @@ function before_render(camera) {
     
     camera.parent = light //light.position = new BABYLON.Vector3(60 * Math.sin(angle), 0, 60 * Math.cos(angle));
 
-    light3.position = new BABYLON.Vector3(60 * Math.sin(angle), 60 * Math.cos(angle), 0);
+    light3.position = new BABYLON.Vector3(20 * Math.sin(angle),20 * Math.cos(angle), 0);
     //light.position = camera.position;
 
     angle += 0.025;
@@ -137,7 +137,7 @@ function start_scene() {
     box_mat.cameraExposure = 0.66;
     box_mat.cameraContrast = 1.66;
     box_mat.diffuseColor = new BABYLON.Color3(0, 0, 0);
-    box_mat.specularColor = new BABYLON.Color3(0, 0, 0);
+    box_mat.specularColor = new BABYLON.Color3(1, 1, 1);
     box_mat.disableLighting = true;
     box_mat.infiniteDistance = true;
     box_mat.backFaceCulling = false;
@@ -158,7 +158,7 @@ function start_scene() {
 
         mat.environmentIntensity = .45;
         mat.directIntensity = .9;
-        mat.cameraExposure = 2.75;
+        mat.cameraExposure = 2.85;
         mat.cameraContrast = 1.25;
         mat.usePhysicalLightFalloff = true;
 
@@ -232,16 +232,16 @@ function start_scene() {
     light.intensity = .95;
     light.position = new BABYLON.Vector3(0,0,0);
 
-    var light2 = new BABYLON.HemisphericLight("hemi-2", new BABYLON.Vector3(0, 0, 30), scene);
-    light2.diffuse = new BABYLON.Color3(0, 0, 1);
+    light2 = new BABYLON.HemisphericLight("hemi-2", new BABYLON.Vector3(0, 0, 30), scene);
+    light2.diffuse = new BABYLON.Color3(1, 1, 1);
     light2.specular = new BABYLON.Color3(1, 1, 1);
     light2.groundColor = new BABYLON.Color3(0.05, 0.03, 0.01);
-    light2.intensity = .65;
+    light2.intensity = .75;
 
     light3 = new BABYLON.PointLight("point-3", new BABYLON.Vector3(0, 0, -100), scene);
     light3.diffuse = new BABYLON.Color3(1, 1, 1);
     light3.specular = new BABYLON.Color3(1, 1, 1);
-    light3.intensity = .75;
+    light3.intensity = .95;
 
     angle = 0;
     scene.beforeRender = before_render;
@@ -273,8 +273,6 @@ function init() {
             stats = new rStats(rstats_obj);
             canvas = document.getElementById("webgl-canvas");
             engine = new BABYLON.Engine(canvas, true);
-
-            //engine.loadingUIText = "loading";
 
             BABYLON.SceneLoader.Load("", base_url+"/skull/skull-ok.babylon", engine, function(loaded_scene) {
                 
