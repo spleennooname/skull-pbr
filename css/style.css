@@ -51,10 +51,8 @@
      background-color: transparent;
  }
  
- .rs-base div.rs-counter-base {}
- 
- .rs-base span.rs-counter-id {}
- 
+ .rs-base div.rs-counter-base {} 
+ .rs-base span.rs-counter-id {} 
  .rs-base div.rs-counter-value {}
  
  .what {
