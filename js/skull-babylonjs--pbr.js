@@ -55,7 +55,7 @@ function resize() {
 function before_render(camera) {
 
 
-    mesh.rotation.y -= 0.015;
+    //mesh.rotation.y -= 0.015;
     
     camera.parent = light //light.position = new BABYLON.Vector3(60 * Math.sin(angle), 0, 60 * Math.cos(angle));
 
@@ -99,6 +99,7 @@ function on_init_scene() {
     mesh.position.x = 0;
     mesh.position.y = 0;
     mesh.position.z = 0;
+    mesh.rotation.y = 2.0;
 
     mesh.optimizeIndices(function() {
         mesh.simplify([
