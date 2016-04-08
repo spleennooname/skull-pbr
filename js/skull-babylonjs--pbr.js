@@ -191,20 +191,20 @@ function start_scene() {
         
         mat = new BABYLON.PBRMaterial("skull-mat", scene);
 
-        mat.microSurface = .82;
+        mat.microSurface = .76;
         mat.albedoColor = new BABYLON.Color3(0.05, 0.03, 0.01);
         mat.albedoTexture = tx_n;
 
         mat.reflectivityColor = new BABYLON.Color3(0.9, 0.8, 0.1);
         mat.reflectivityTexture =  tx_gold;
 
-        mat.environmentIntensity = .2;
+        mat.environmentIntensity = .5;
         mat.directIntensity = 1.25;
 
-        mat.cameraExposure = 12.0;
+        mat.cameraExposure = 5.0;
         mat.cameraContrast = 2.25;
 
-        mat.emissiveColor = new BABYLON.Color3(1.0, 0, 0);
+        mat.emissiveColor = new BABYLON.Color3( 0.05, 0.03, 0.01);
 
         //reflection
         mat.reflectionTexture = tx_box;
