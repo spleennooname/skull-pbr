@@ -150,7 +150,7 @@ function start_scene() {
     box_mat.infiniteDistance = true;
     box_mat.backFaceCulling = false;
     box.material = box_mat;
-  
+
 
     /*** https://raw.githubusercontent.com/BabylonJS/Babylon.js/master/src/Shaders/pbr.fragment.fx
     *
@@ -161,18 +161,18 @@ function start_scene() {
     */
 
     var use_pbr = true;
-    var ext_a =  getWebGLExtensions(canvas) ;
-    var pbr_a = ["GL_EXT_shader_texture_lod","GL_EXT_frag_depth","GL_OES_standard_derivatives"];
+    var ext_a = getWebGLExtensions(canvas);
+    var pbr_a = ["GL_EXT_shader_texture_lod", "GL_EXT_frag_depth", "GL_OES_standard_derivatives"];
     var i = 0;
-    while( i <= pbr_a.length-1 ){
-        if ( ext_a.indexOf(pbr_a[i]) !== -1 ){
+    while (i <= pbr_a.length - 1) {
+        if (ext_a.indexOf(pbr_a[i]) !== -1) {
             use_pbr = false;
             break;
         }
-        else{
+        /*else{
             console.log(pbr_a[i]," ok");
 
-        }
+        }*/
         i++;
     }
 
@@ -203,7 +203,7 @@ function start_scene() {
 
     // attach post fx
     //camera.attachPostProcess(postProcess);
-
+   
     if (use_pbr === true) {
 
         //skull pbr material    
@@ -243,49 +243,39 @@ function start_scene() {
         mat.refractionFresnelParameters.bias = .15;
         mat.refractionFresnelParameters.power = .10;
 
-    } else     {
+    } else {
 
-           //skull standard material
-           mat = new BABYLON.StandardMaterial("skull-mat", scene);
+        //skull standard material
+        mat = new BABYLON.StandardMaterial("skull-mat", scene);
+        mat.diffuseColor = new BABYLON.Color3(0.9, 0.8, 0.1);
 
-           mat.diffuseColor = new BABYLON.Color3(0.9, 0.8, 0.1);
-           mat.diffuseTexture = tx_gold;
+        /*mat.diffuseTexture = tx_gold;
 
-           mat.specularColor = new BABYLON.Color3(0.9, 0.8, 0.1);
-           mat.specularTexture =  tx_sp;
+        mat.specularColor = new BABYLON.Color3(1, 1, 1);
+        mat.specularTexture = tx_sp;
 
-           mat.ambientColor = new BABYLON.Color3(0.0, 0.0, 0.0);
-           mat.emissiveColor = new BABYLON.Color3(0.0, 0.0, 0.0);
-           mat.specularPower = 30;
-           mat.alpha = 1.0;
+        mat.ambientColor = new BABYLON.Color3(0.05, 0.03, 0.01);
 
-           //emissive
-           mat.emissiveTexture =  tx_gold;  
-           mat.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-           mat.emissiveFresnelParameters.bias = 0.25;
-           mat.emissiveFresnelParameters.power = .25;
-           mat.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
-           mat.emissiveFresnelParameters.rightColor = BABYLON.Color3.Black();
+        mat.specularPower = 30;
+        mat.alpha = 1.0;
 
-           //reflection
-           /*mat.reflectionTexture = tx_box;        
-           mat.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-           mat.reflectionFresnelParameters = new BABYLON.FresnelParameters();
-           mat.reflectionFresnelParameters.power = .25;
-           mat.reflectionFresnelParameters.bias = .25;
-           mat.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
-           mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black()
+        //reflection
+        mat.reflectionTexture = tx_box;
+        mat.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        mat.reflectionFresnelParameters = new BABYLON.FresnelParameters();
+        mat.reflectionFresnelParameters.power = .10;
+        mat.reflectionFresnelParameters.bias = .15;
+        mat.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
+        mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black()
 
-       
-
-           //refraction
-           mat.refractionTexture = tx_box;
-           mat.refractionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-           mat.refractionFresnelParameters = new BABYLON.FresnelParameters();
-           mat.refractionFresnelParameters.leftColor = BABYLON.Color3.White();
-           mat.refractionFresnelParameters.rightColor = BABYLON.Color3.Black();
-           mat.refractionFresnelParameters.bias = .25;
-           mat.refractionFresnelParameters.power = .25;*/
+        //refraction
+        mat.refractionTexture = tx_box;
+        mat.refractionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        mat.refractionFresnelParameters = new BABYLON.FresnelParameters();
+        mat.refractionFresnelParameters.leftColor = BABYLON.Color3.White();
+        mat.refractionFresnelParameters.rightColor = BABYLON.Color3.Black();
+        mat.refractionFresnelParameters.bias = .15;
+        mat.refractionFresnelParameters.power = .10*/
 
     }
 
@@ -329,10 +319,10 @@ function start_scene() {
 
 
 function getWebGLExtensions(canvas) {
-    var gl ;
+    var gl;
     try {
         gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-        return gl != null && !!window.WebGLRenderingContext ? gl.getSupportedExtensions() : [];       
+        return gl != null && !!window.WebGLRenderingContext ? gl.getSupportedExtensions() : [];
     } catch (e) {
         return []
     }
@@ -352,7 +342,7 @@ function init() {
             engine = new BABYLON.Engine(canvas, false, null, true);
             engine.enableOfflineSupport = true;
 
-          
+
             BABYLON.SceneLoader.Load("", base_url + "/skull/skull-ok.babylon", engine, function(loaded_scene) {
                 scene = loaded_scene;
                 scene.executeWhenReady(on_init_scene);
