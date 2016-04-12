@@ -45,12 +45,18 @@ function render() {
 
 function resize() {
 
-  
+    //https://en.wikipedia.org/wiki/Aspect_ratio_(image)
+    var aspect = 1.77; //w/h
+
     var c = document.getElementById("webgl-demo");
 
     var h = .90*window.innerHeight;
+    var w = window.innerWidth < h*1.77 ? window.innerWidth : h*1.77;
+
     var mr = (window.innerHeight -  h)/2;
     c.style.height = h + "px";
+    c.style.width = w + "px";
+
     c.style.marginTop=mr+"px"
     c.style.marginBottom=mr+"px"
 
