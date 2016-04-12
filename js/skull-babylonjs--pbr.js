@@ -167,7 +167,7 @@ function start_scene() {
         mat = new BABYLON.PBRMaterial("skull-mat", scene);
 
         //0..1 
-        mat.microSurface = .90;
+        mat.microSurface = .80;
 
         //The albedo value, also known as diffuse in standard material, controls the main color of the material. It sets up the surface color of the object.
         mat.albedoColor = new BABYLON.Color3(0.25, 0.23, 0.11); //color or textures
@@ -177,7 +177,7 @@ function start_scene() {
         mat.reflectivityTexture = tx_gold;
         
         mat.environmentIntensity = .15;
-        mat.directIntensity = .85;
+        mat.directIntensity = .55;
 
         mat.cameraExposure = 10.0;
         mat.cameraContrast = 2.66;
