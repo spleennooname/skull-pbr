@@ -39,11 +39,13 @@
  #webgl-demo {
      position: relative;
      margin: 0 auto;
-     width: 100%;
+     width: auto;
      max-width: 960px;
-     height: 100%;
+     height: auto;
+     max-height: 640px;
      z-index: 0;
      display: inline-block;
+     cursor:url(cursor_4.cur), default;
  }
  
  .rs-base {
