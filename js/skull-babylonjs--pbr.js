@@ -169,14 +169,14 @@ function start_scene() {
         scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
         scene.fogColor = new BABYLON.Color3(0, 0, 0);
         scene.fogStart = 20.0;
-        scene.fogEnd = 400.0;
+        scene.fogEnd = 500.0;
 
         //skull pbr material    
 
         mat = new BABYLON.PBRMaterial("skull-mat", scene);
 
         //0..1 
-        mat.microSurface = .80;
+        mat.microSurface = .76;
 
         //The albedo value, also known as diffuse in standard material, controls the main color of the material. It sets up the surface color of the object.
         mat.albedoColor = new BABYLON.Color3(0.25, 0.23, 0.11); //color or textures
@@ -185,10 +185,10 @@ function start_scene() {
         mat.reflectivityColor = new BABYLON.Color3(0.9, 0.8, 0.1);
         mat.reflectivityTexture = tx_gold;
 
-        mat.environmentIntensity = .15;
-        mat.directIntensity = .55;
+        mat.environmentIntensity = .25;
+        mat.directIntensity = .75;
 
-        mat.cameraExposure = 10.0;
+        mat.cameraExposure = 20.0;
         mat.cameraContrast = 2.66;
 
         //reflection
@@ -197,7 +197,7 @@ function start_scene() {
 
         mat.reflectionFresnelParameters = new BABYLON.FresnelParameters();
         mat.reflectionFresnelParameters.power = .10;
-        mat.reflectionFresnelParameters.bias = .15;
+        mat.reflectionFresnelParameters.bias = .10;
         mat.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
         mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black()
 
@@ -216,7 +216,7 @@ function start_scene() {
         mat.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
         mat.reflectionFresnelParameters = new BABYLON.FresnelParameters();
         mat.reflectionFresnelParameters.power = .10;
-        mat.reflectionFresnelParameters.bias = .15;
+        mat.reflectionFresnelParameters.bias = .10;
         mat.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
         mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
     }
@@ -228,28 +228,27 @@ function start_scene() {
     mesh.position.z = 0;
 
 
-    if (use_pbr === true) {
+    
         mesh.optimizeIndices(function() {
             mesh.simplify([
-                    { quality: 0.25, distance: 200 },
-                    { quality: 0.25, distance: 100 },
-                    { quality: 0.45, distance: 50 },
-                    { quality: 0.65, distance: 20 }
+                    { quality: 0.15, distance: 200 },
+                    { quality: 0.15, distance: 100 },
+                    { quality: 0.15, distance: 50 },
+                    { quality: 0.15, distance: 20 }
                 ],
                 false,
                 BABYLON.SimplificationType.QUADRATIC);
         });
-    }
-
+  
 
 
     light = scene.lights[0];
     light.diffuseColor = new BABYLON.Color3(1, 1, 1);
     light.specularColor = new BABYLON.Color3(1, 1, 1);
     light.intensity = .95;
-    light.position = new BABYLON.Vector3(0, 0, 0);
+    light.position = new BABYLON.Vector3(0, 0, 60);
 
-    light2 = new BABYLON.HemisphericLight("hemi-2", new BABYLON.Vector3(0, 0, 30), scene);
+    light2 = new BABYLON.HemisphericLight("hemi-2", new BABYLON.Vector3(0, 0, 100), scene);
     light2.diffuse = new BABYLON.Color3(1, 1, 1);
     light2.specular = new BABYLON.Color3(1, 1, 1);
     light2.groundColor = new BABYLON.Color3(0.05, 0.03, 0.01);
