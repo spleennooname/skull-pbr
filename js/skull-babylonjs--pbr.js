@@ -18,7 +18,7 @@ var rstats_obj = {
 
 var canvas, engine, scene, assets, material, mesh, light, light2, camera, assets, light3, mesh, angle = 0,
 
-    tx_box, tx_gold, tx_mat, tx_n, tx_sp, 
+    tx_box, tx_gold, tx_mat, tx_n, tx_sp,
 
     box, box_mat,
 
@@ -50,15 +50,15 @@ function resize() {
 
     var c = document.getElementById("webgl-demo");
 
-    var h = .90*window.innerHeight;
-    var w = window.innerWidth < h*1.77 ? window.innerWidth : h*1.77;
+    var h = .90 * window.innerHeight;
+    var w = window.innerWidth < h * 1.77 ? window.innerWidth : h * 1.77;
 
-    var mr = (window.innerHeight -  h)/2;
+    var mr = (window.innerHeight - h) / 2;
     c.style.height = h + "px";
     c.style.width = w + "px";
 
-    c.style.marginTop=mr+"px"
-    c.style.marginBottom=mr+"px"
+    c.style.marginTop = mr + "px"
+    c.style.marginBottom = mr + "px"
 
     engine.resize();
 }
@@ -66,7 +66,6 @@ function resize() {
 function before_render(camera) {
 
     mesh.rotation.y -= 0.015;
-  
     light.position = new BABYLON.Vector3(20 * Math.sin(angle), 20 * Math.cos(angle), 0);
     angle += 0.025;
     /*scene.lights.forEach(function(l) {        
@@ -83,13 +82,13 @@ function on_init_scene() {
     camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
 
     scene.activeCamera = camera;
-    camera.attachControl(canvas, true);    
+    camera.attachControl(canvas, true);
     camera.minZ = 20;
     camera.maxZ = 400;
     camera.radius = 100;
 
     assets = new BABYLON.AssetsManager(scene);
- 
+
 
     tx_box = new BABYLON.CubeTexture(base_url + "/textures/obsidian/ob", scene);
 
@@ -115,6 +114,14 @@ function on_init_scene() {
     assets.load();
 }
 
+
+function findOne(haystack, arr) {
+    return arr.some(function(v) {
+        console.log(v, haystack.indexOf(v) >= 0)
+        return haystack.indexOf(v) >= 0;
+    });
+};
+
 function start_scene() {
 
     box = BABYLON.Mesh.CreateBox("sky-box", 800.0, scene);
@@ -135,40 +142,36 @@ function start_scene() {
     box.material = box_mat;
 
     /*** https://raw.githubusercontent.com/BabylonJS/Babylon.js/master/src/Shaders/pbr.fragment.fx
-    *
-    *
-    * #ifdef BUMP# extension GL_OES_standard_derivatives: enable# endif
-    * # ifdef LODBASEDMICROSFURACE# extension GL_EXT_shader_texture_lod: enable# endif
-    * # ifdef LOGARITHMICDEPTH# extension GL_EXT_frag_depth: enable# endif
-    */
+     *
+     * check extension supported
+     * #ifdef BUMP# extension GL_OES_standard_derivatives: enable# endif
+     * # ifdef LODBASEDMICROSFURACE# extension GL_EXT_shader_texture_lod: enable# endif
+     * # ifdef LOGARITHMICDEPTH# extension GL_EXT_frag_depth: enable# endif
+     */
 
     var use_pbr = true;
     var ext_a = getWebGLExtensions(canvas);
-    var pbr_a = ["GL_EXT_shader_texture_lod", "GL_EXT_frag_depth", "GL_OES_standard_derivatives"];
+    var pbr_a = ["EXT_shader_texture_lod", "EXT_frag_depth", "OES_standard_derivatives"];
     var i = 0;
     while (i <= pbr_a.length - 1) {
-        if (ext_a.indexOf(pbr_a[i]) !== -1) {
+        if ( ext_a.indexOf( pbr_a[i] ) < 0) {
+            console.log(pbr_a[i]," not ok");
             use_pbr = false;
             break;
-        }
-        /*else{
-            console.log(pbr_a[i]," ok");
-
-        }*/
+        } 
         i++;
     }
 
-    //use_pbr = false;
+    if (use_pbr === true) {
 
-    if (use_pbr === true){
+        // Fog
 
-         // Fog
         scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
         scene.fogColor = new BABYLON.Color3(0, 0, 0);
         scene.fogStart = 20.0;
         scene.fogEnd = 400.0;
 
-         //skull pbr material    
+        //skull pbr material    
 
         mat = new BABYLON.PBRMaterial("skull-mat", scene);
 
@@ -178,16 +181,16 @@ function start_scene() {
         //The albedo value, also known as diffuse in standard material, controls the main color of the material. It sets up the surface color of the object.
         mat.albedoColor = new BABYLON.Color3(0.25, 0.23, 0.11); //color or textures
 
-       //the reflectivity color is the PBR equivalent of the specular color in the standard material. This controls the surface reflectivity of the material
+        //the reflectivity color is the PBR equivalent of the specular color in the standard material. This controls the surface reflectivity of the material
         mat.reflectivityColor = new BABYLON.Color3(0.9, 0.8, 0.1);
         mat.reflectivityTexture = tx_gold;
-        
+
         mat.environmentIntensity = .15;
         mat.directIntensity = .55;
 
         mat.cameraExposure = 10.0;
         mat.cameraContrast = 2.66;
-       
+
         //reflection
         mat.reflectionTexture = tx_box;
         mat.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
@@ -197,13 +200,10 @@ function start_scene() {
         mat.reflectionFresnelParameters.bias = .15;
         mat.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
         mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black()
-       
-    }
-    else{
 
+    } else {
 
         mat = new BABYLON.StandardMaterial("skull-mat", scene);
-        //mat.diffuseColor = new BABYLON.Color3(0.9, 0.8, 0.1);
         mat.diffuseTexture = tx_gold;
 
         mat.specularColor = new BABYLON.Color3(1, 1, 1);
@@ -211,36 +211,33 @@ function start_scene() {
 
         mat.bumpTexture = tx_n;
 
-        mat.specularPower = 50;
-   
+        mat.specularPower = 40;
+
         //reflection
         mat.reflectionTexture = tx_box;
         mat.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-
         mat.reflectionFresnelParameters = new BABYLON.FresnelParameters();
         mat.reflectionFresnelParameters.power = .10;
         mat.reflectionFresnelParameters.bias = .15;
         mat.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
-        mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black()
-
-   }
+        mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
+    }
 
     mesh = scene.meshes[0];
     mesh.material = mat;
     mesh.position.x = 0;
     mesh.position.y = 0;
-    mesh.position.z = 0; 
+    mesh.position.z = 0;
     mesh.optimizeIndices(function() {
         mesh.simplify([
-                { quality: 0.15, distance: 200 },
-                { quality: 0.15, distance: 100 },
-                { quality: 0.35, distance: 50 },
-                { quality: 0.75, distance: 20 }
+                { quality: 0.25, distance: 200 },
+                { quality: 0.25, distance: 100 },
+                { quality: 0.45, distance: 50 },
+                { quality: 0.65, distance: 20 }
             ],
             false,
             BABYLON.SimplificationType.QUADRATIC);
     });
-
 
     light = scene.lights[0];
     light.diffuseColor = new BABYLON.Color3(1, 1, 1);
@@ -275,13 +272,10 @@ function start_scene() {
 
 
 function getWebGLExtensions(canvas) {
-    var gl;
     try {
-        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-        return gl != null && !!window.WebGLRenderingContext ? gl.getSupportedExtensions() : [];
-    } catch (e) {
-        return []
-    }
+        var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        return gl != null && !!window.WebGLRenderingContext ? gl.getSupportedExtensions() : []; } catch (e) {
+        return [] }
 }
 
 
