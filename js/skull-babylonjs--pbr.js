@@ -154,11 +154,11 @@ function start_scene() {
     var pbr_a = ["EXT_shader_texture_lod", "EXT_frag_depth", "OES_standard_derivatives"];
     var i = 0;
     while (i <= pbr_a.length - 1) {
-        if ( ext_a.indexOf( pbr_a[i] ) < 0) {
-            console.log(pbr_a[i]," not ok");
+        if (ext_a.indexOf(pbr_a[i]) < 0) {
+            console.log(pbr_a[i], " not ok");
             use_pbr = false;
             break;
-        } 
+        }
         i++;
     }
 
@@ -209,8 +209,6 @@ function start_scene() {
         mat.specularColor = new BABYLON.Color3(1, 1, 1);
         mat.specularTexture = tx_sp;
 
-        mat.bumpTexture = tx_n;
-
         mat.specularPower = 40;
 
         //reflection
@@ -228,16 +226,22 @@ function start_scene() {
     mesh.position.x = 0;
     mesh.position.y = 0;
     mesh.position.z = 0;
-    mesh.optimizeIndices(function() {
-        mesh.simplify([
-                { quality: 0.25, distance: 200 },
-                { quality: 0.25, distance: 100 },
-                { quality: 0.45, distance: 50 },
-                { quality: 0.65, distance: 20 }
-            ],
-            false,
-            BABYLON.SimplificationType.QUADRATIC);
-    });
+
+
+    if (use_pbr === true) {
+        mesh.optimizeIndices(function() {
+            mesh.simplify([
+                    { quality: 0.25, distance: 200 },
+                    { quality: 0.25, distance: 100 },
+                    { quality: 0.45, distance: 50 },
+                    { quality: 0.65, distance: 20 }
+                ],
+                false,
+                BABYLON.SimplificationType.QUADRATIC);
+        });
+    }
+
+
 
     light = scene.lights[0];
     light.diffuseColor = new BABYLON.Color3(1, 1, 1);
@@ -274,8 +278,10 @@ function start_scene() {
 function getWebGLExtensions(canvas) {
     try {
         var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-        return gl != null && !!window.WebGLRenderingContext ? gl.getSupportedExtensions() : []; } catch (e) {
-        return [] }
+        return gl != null && !!window.WebGLRenderingContext ? gl.getSupportedExtensions() : [];
+    } catch (e) {
+        return []
+    }
 }
 
 
