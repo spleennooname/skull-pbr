@@ -22,6 +22,8 @@ var canvas, engine, scene, assets, material, mesh, light, light2, camera, assets
 
     box, box_mat,
 
+    use_pbr = true,
+
     base_textures = "https://dl.dropboxusercontent.com/u/1358781/lab/webgl/textures/",
 
     base_url = "https://dl.dropboxusercontent.com/u/1358781/lab/webgl/skull";
@@ -84,7 +86,7 @@ function on_init_scene() {
     scene.activeCamera = camera;
     camera.attachControl(canvas, true);
     camera.minZ = 20;
-    camera.maxZ = 400;
+    camera.maxZ = 800;
     camera.radius = 100;
 
     assets = new BABYLON.AssetsManager(scene);
@@ -108,19 +110,58 @@ function on_init_scene() {
     }
 
     assets.onFinish = function(tasks) {
+
+        mesh = scene.meshes[0];
+        mesh.position.x = 0;
+        mesh.position.y = 0;
+        mesh.position.z = 0;
+
+        /*** https://raw.githubusercontent.com/BabylonJS/Babylon.js/master/src/Shaders/pbr.fragment.fx
+         *
+         * check extension supported
+         * #ifdef BUMP# extension GL_OES_standard_derivatives: enable# endif
+         * # ifdef LODBASEDMICROSFURACE# extension GL_EXT_shader_texture_lod: enable# endif
+         * # ifdef LOGARITHMICDEPTH# extension GL_EXT_frag_depth: enable# endif
+         */
+ 
+        var ext_a = getWebGLExtensions(canvas);
+        var pbr_a = ["EXT_shader_texture_lod", "EXT_frag_depth", "OES_standard_derivatives"];
+        var i = 0;
+        while (i <= pbr_a.length - 1) {
+            if (ext_a.indexOf(pbr_a[i]) < 0) {
+                console.log(pbr_a[i], " not ok");
+                use_pbr = false;
+                break;
+            }
+            i++;
+        }
+
+        if (use_pbr === true) {
+
+            mesh.optimizeIndices(function() {
+                mesh.simplify([
+                        { quality: 0.15, distance: 200 },
+                        { quality: 0.15, distance: 100 },
+                        { quality: 0.25, distance: 50 },
+                        { quality: 0.35, distance: 20 }
+                    ],
+                    false,
+                    BABYLON.SimplificationType.QUADRATIC,
+                    function() {
+
+                    });
+            });
+
+        }
+
         start_scene();
+
     };
 
     assets.load();
+
 }
 
-
-function findOne(haystack, arr) {
-    return arr.some(function(v) {
-        console.log(v, haystack.indexOf(v) >= 0)
-        return haystack.indexOf(v) >= 0;
-    });
-};
 
 function start_scene() {
 
@@ -134,33 +175,11 @@ function start_scene() {
     box_mat.cameraContrast = 3.0;
     box_mat.diffuseColor = new BABYLON.Color3(0, 0, 0);
     box_mat.specularColor = new BABYLON.Color3(1, 1, 1);
-
     box_mat.disableLighting = true;
     box_mat.infiniteDistance = true;
     box_mat.backFaceCulling = false;
-
     box.material = box_mat;
-
-    /*** https://raw.githubusercontent.com/BabylonJS/Babylon.js/master/src/Shaders/pbr.fragment.fx
-     *
-     * check extension supported
-     * #ifdef BUMP# extension GL_OES_standard_derivatives: enable# endif
-     * # ifdef LODBASEDMICROSFURACE# extension GL_EXT_shader_texture_lod: enable# endif
-     * # ifdef LOGARITHMICDEPTH# extension GL_EXT_frag_depth: enable# endif
-     */
-
-    var use_pbr = true;
-    var ext_a = getWebGLExtensions(canvas);
-    var pbr_a = ["EXT_shader_texture_lod", "EXT_frag_depth", "OES_standard_derivatives"];
-    var i = 0;
-    while (i <= pbr_a.length - 1) {
-        if (ext_a.indexOf(pbr_a[i]) < 0) {
-            console.log(pbr_a[i], " not ok");
-            use_pbr = false;
-            break;
-        }
-        i++;
-    }
+    box.material.alpha = 1
 
     if (use_pbr === true) {
 
@@ -168,8 +187,8 @@ function start_scene() {
 
         scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
         scene.fogColor = new BABYLON.Color3(0, 0, 0);
-        scene.fogStart = 20.0;
-        scene.fogEnd = 500.0;
+        //scene.fogStart = 20.0;
+       //scene.fogEnd = 500.0;
 
         //skull pbr material    
 
@@ -185,11 +204,10 @@ function start_scene() {
         mat.reflectivityColor = new BABYLON.Color3(0.9, 0.8, 0.1);
         mat.reflectivityTexture = tx_gold;
 
-        mat.environmentIntensity = .25;
-        mat.directIntensity = .75;
-
-        mat.cameraExposure = 20.0;
-        mat.cameraContrast = 2.66;
+        //mat.environmentIntensity = .5;
+        //mat.directIntensity = .5;
+        //mat.cameraExposure = 20.0;
+        //mat.cameraContrast = 2.66;
 
         //reflection
         mat.reflectionTexture = tx_box;
@@ -221,25 +239,7 @@ function start_scene() {
         mat.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
     }
 
-    mesh = scene.meshes[0];
     mesh.material = mat;
-    mesh.position.x = 0;
-    mesh.position.y = 0;
-    mesh.position.z = 0;
-
-
-    
-        mesh.optimizeIndices(function() {
-            mesh.simplify([
-                    { quality: 0.15, distance: 200 },
-                    { quality: 0.15, distance: 100 },
-                    { quality: 0.15, distance: 50 },
-                    { quality: 0.15, distance: 20 }
-                ],
-                false,
-                BABYLON.SimplificationType.QUADRATIC);
-        });
-  
 
 
     light = scene.lights[0];
@@ -258,10 +258,6 @@ function start_scene() {
     scene.beforeRender = before_render;
     engine.runRenderLoop(render);
 
-    //scene.debugLayer.show();
-
-    window.addEventListener('resize', resize, false);
-    resize();
 
     var t1 = new TWEEN.Tween({ z: 150 })
         .to({ z: 200 }, 3500)
@@ -271,6 +267,9 @@ function start_scene() {
         });
 
     t1.start();
+
+    window.addEventListener('resize', resize, false);
+    resize();
 }
 
 
@@ -288,14 +287,9 @@ function init() {
     if (Detector.webgl) {
         if (BABYLON.Engine.isSupported()) {
 
-            document.onselectstart = function() {
-                return false;
-            }
-
             stats = new rStats(rstats_obj);
             canvas = document.getElementById("webgl-canvas");
             engine = new BABYLON.Engine(canvas, false, null, true);
-
             BABYLON.SceneLoader.Load("", base_url + "/skull/skull-ok.babylon", engine, function(loaded_scene) {
                 scene = loaded_scene;
                 scene.executeWhenReady(on_init_scene);
@@ -307,5 +301,9 @@ function init() {
     }
 }
 //   /init
+
+document.onselectstart = function() {
+    return false;
+}
 
 onDomReady(init);

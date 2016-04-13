@@ -16,7 +16,13 @@
      background: black;
      height: 100%;
      overflow: hidden;
+  
  }
+
+ body.bg{
+     background: url(bg_8.jpg) no-repeat center center;
+     background-size: cover;
+ } 
  
  canvas {
      width: 100%;
@@ -46,6 +52,7 @@
      z-index: 0;
      display: inline-block;
      cursor:url(cursor_4.cur), default;
+
  }
  
  .rs-base {
