@@ -1,11 +1,11 @@
 # Gold Skull
 
-A WebGL Demo with BabylonJS 2.40a and PBR Materials.
+A WebGL Demo with BabylonJS 2.40 and PBR Materials.
 
-![WebGL ready](https://img.shields.io/badge/webgl-ready-green.svg) ![babylonjs](https://img.shields.io/badge/babylonjs-v2.40a-green.svg) ![latest](https://img.shields.io/badge/latest-chrome safari firefox ie-green.svg)
+![WebGL ready](https://img.shields.io/badge/webgl-ready-green.svg) ![babylonjs](https://img.shields.io/badge/babylonjs-v2.40-green.svg) ![latest](https://img.shields.io/badge/latest-chrome safari firefox ie-green.svg)
 
-* [BabylonJS 2.40a](https://github.com/BabylonJS/Babylon.js/tree/master/dist/preview%20release)
-* In-Browser Mesh Simplification (Auto-LoD, Level Of Details)
+* [BabylonJS 2.40](https://github.com/BabylonJS/Babylon.js/releases/tag/v2.4.0)
+* In-browser Mesh Simplification (Auto-LoD, Level Of Details)
 * PBR Materials
 
 ## What Is Physically Based Rendering (PBR)?
