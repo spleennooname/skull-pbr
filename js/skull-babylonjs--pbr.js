@@ -1,3 +1,11 @@
+/*
+    
+    skull-babylonjs--pbr.js
+
+
+
+*/
+
 var rstats_obj = {
     values: {
         frame: {
@@ -49,7 +57,6 @@ function resize() {
 
     //https://en.wikipedia.org/wiki/Aspect_ratio_(image)
     var aspect = 1.77; //w/h
-
     var c = document.getElementById("webgl-demo");
 
     var h = .90 * window.innerHeight;
@@ -238,25 +245,21 @@ function start_scene() {
     light2.groundColor = new BABYLON.Color3(0, 0.03, 0.01);
     light2.intensity = .95;
     
-
     light3 = new BABYLON.PointLight("point", new BABYLON.Vector3(0, -100, 0), scene);
 
     angle = 0;
     scene.beforeRender = before_render;
     engine.runRenderLoop(render);
 
-
     var t1 = new TWEEN.Tween({ z: 150 })
         .to({ z: 200 }, 3500)
         .easing(TWEEN.Easing.Exponential.InOut)
         .onUpdate(function() {
-            camera.setPosition(new BABYLON.Vector3(0, 0, this.z));
+            camera.setPosition( new BABYLON.Vector3(0, 0, this.z) );
         });
 
     t1.start();
-
    // scene.debugLayer.show();
-
     window.addEventListener('resize', resize, false);
     resize();
 }
