@@ -3,7 +3,5 @@
 node_modules
 *.png
 textures
-Gruntfile.js
-*.json
 *.txt
 *.jpg
