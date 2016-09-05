@@ -42,6 +42,8 @@
      cursor: url(https://mail.google.com/mail/images/2/closedhand.cur) 8 8, move;
  }
  
+
+
  #webgl-demo {
      position: relative;
      margin: 0 auto;
@@ -150,4 +152,10 @@
          line-height: 28px;
      }
      #webgl-demo {}
+ }
+
+
+ .oldie{
+    position: fixed;
+    top:20%;
  }

@@ -10,7 +10,7 @@ A WebGL Demo with BabylonJS 2.40 and PBR Materials.
 
 ## What Is Physically Based Rendering (PBR)?
 
-PBR is a set of techniques aiming at improving realism of rendered graphics by using more physically correct formulas on how surfaces interact with light. Sometimes, especially in the realtime context it's called Physically Based Shading - PBS.
+PBR is a set of techniques aiming at improving realism of rendered graphics by using more physically correct formulas on how surfaces interact with light. Sometimes, especially in the realtime context it's called Physically Based Shading
 [Here's an interesting introduction](https://www.allegorithmic.com/pbr-guide)
 
 ## demo
@@ -29,6 +29,8 @@ PBR is a set of techniques aiming at improving realism of rendered graphics by u
 
 **05 Apr 2016**  
 - auto LoD
+**09 Sept 2016**  
+- re-scratch with RequireJS
 
 ### License
 
