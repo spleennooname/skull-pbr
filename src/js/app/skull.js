@@ -71,8 +71,6 @@ define([
 
 		use_pbr = true,
 
-		base_textures = "https://spleennooname.github.io/skull-pbr/assets/textures/",
-
 		base_url = "https://spleennooname.github.io/skull-pbr/assets";
 
 
@@ -84,7 +82,7 @@ define([
 					canvas = document.getElementById("webgl-canvas");
 					engine = new BABYLON.Engine(canvas, false, null, true);
 
-					BABYLON.SceneLoader.Load("", base_url + "/skull/skull-ok.babylon", engine, function (loaded_scene) {
+					BABYLON.SceneLoader.Load("", base_url + "/skull-ok.babylon", engine, function (loaded_scene) {
 						scene = loaded_scene;
 						scene.executeWhenReady(oninit);
 					}, onprogress);
