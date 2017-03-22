@@ -73,7 +73,7 @@ define([
 
 		base_textures = "https://spleennooname.github.io/skull-pbr/assets/textures/",
 
-		base_url = "https://spleennooname.github.io/skull-pbr/assets/";
+		base_url = "https://spleennooname.github.io/skull-pbr/assets";
 
 
 	var ready = function () {
