@@ -2,7 +2,7 @@
 
 A WebGL Demo with BabylonJS 2.40 and PBR Materials.
 
-![WebGL ready](https://img.shields.io/badge/webgl-ready-green.svg) ![babylonjs](https://img.shields.io/badge/babylonjs-v2.40-green.svg) 
+![WebGL ready](https://img.shields.io/badge/webgl-ready-green.svg) ![babylonjs](https://img.shields.io/badge/babylonjs-v2.40-green.svg)
 
 * [BabylonJS 2.40](https://github.com/BabylonJS/Babylon.js/releases/tag/v2.4.0)
 * In-browser Mesh Simplification (Auto-LoD, Level Of Details)
@@ -15,7 +15,7 @@ PBR is a set of techniques aiming at improving realism of rendered graphics by u
 
 ## demo
 
-![skull](https://drive.google.com/uc?export=download&id=0B0y64uRBjQ7JcUxhRjdROV92dVk)
+![skull](https://spleennooname.github.io/skull-pbr/assets/skull-github.jpg)
 
 [http://spleennooname.github.io/skull-pbr/skull-babylonjs-pbr-materials.html](http://spleennooname.github.io/skull-pbr/skull-babylonjs-pbr-materials.html)
 
@@ -50,4 +50,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
-

@@ -1,7 +1,4 @@
 *.ini
 --*.html
 node_modules
-*.png
-textures
 *.txt
-*.jpg
