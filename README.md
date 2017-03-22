@@ -15,7 +15,7 @@ PBR is a set of techniques aiming at improving realism of rendered graphics by u
 
 ## demo
 
-![skull](https://dl.dropboxusercontent.com/u/1358781/lab/webgl/skull/skull-github.jpg)
+![skull](https://drive.google.com/uc?export=download&id=0B0y64uRBjQ7JcUxhRjdROV92dVk)
 
 [http://spleennooname.github.io/skull-pbr/skull-babylonjs-pbr-materials.html](http://spleennooname.github.io/skull-pbr/skull-babylonjs-pbr-materials.html)
 
